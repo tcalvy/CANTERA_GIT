@@ -1,6 +1,8 @@
 path:
   output_folder: 'H2AIR_DATA_30FUEL'
 
+type: 'debit'
+
 XOH_PLOT:
   figsizex: 10
   figsizey: 10

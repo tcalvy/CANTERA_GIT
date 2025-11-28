@@ -27,7 +27,7 @@ t_temperatures:
   nb_points_fuel: 1                           #Number of presolution points between min and max 
   min_oxidizer: 300
   max_oxidizer: 2000
-  nb_points_oxidizer: 3
+  nb_points_oxidizer: 20
 
 
 
@@ -42,7 +42,7 @@ d_properties:
 d_debits:
   min_fuel: 0.01                               #Surface mass flow rate (kg/m^2/s)
   max_fuel: 0.60                               
-  nb_points_fuel: 30                           #Number of presolution points between min and max 
+  nb_points_fuel: 3                           #Number of presolution points between min and max 
   min_oxidizer: 2.0
   max_oxidizer: 3
   nb_points_oxidizer: 1
