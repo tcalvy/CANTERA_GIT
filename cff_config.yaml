@@ -1,3 +1,7 @@
+path:
+  output_folder: 'H2AIR_DATA_30FUEL'
+
+
 species:
   composition_fuel: 'H2:1'                    #Fuel composition
   composition_oxidizer: 'O2:0.21, N2:0.79'    #Oxydizer composition
@@ -6,12 +10,36 @@ species:
 geometry:
   width: 0.1                                  #Nozzle distance (m)
 
-properties:
+
+#TYPE OF VARIABLE METRIC (debit/temperature)
+type: 'debit'
+
+#-------------------------------------------------------------------------------
+#For temperature variation : 
+t_properties:
+  debit_fuel: 0.60                            #Surface mass flow rate (kg/m^2/s)
+  debit_oxidizer: 3.00                        #Surface mass flow rate (kg/m^2/s)
+  pressure: 103235                            #Pressure (Pa)
+
+t_temperatures:
+  min_fuel: 299                               #Temperature (K)
+  max_fuel: 301                               
+  nb_points_fuel: 1                           #Number of presolution points between min and max 
+  min_oxidizer: 300
+  max_oxidizer: 2000
+  nb_points_oxidizer: 3
+
+
+
+
+
+#For debit variation : 
+d_properties:
   fuel_temperature: 300.0                     #Fuel Temperature  (K)
   oxidizer_temperature: 300.0                 #Oxydizer Temperature (K)
   pressure: 103235                            #Pressure (Pa)
 
-debits:
+d_debits:
   min_fuel: 0.01                               #Surface mass flow rate (kg/m^2/s)
   max_fuel: 0.60                               
   nb_points_fuel: 30                           #Number of presolution points between min and max 
@@ -19,8 +47,7 @@ debits:
   max_oxidizer: 3
   nb_points_oxidizer: 1
 
-path:
-  output_folder: 'H2AIR_DATA_30FUEL'
+
 
 
 

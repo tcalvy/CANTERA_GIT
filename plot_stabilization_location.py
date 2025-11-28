@@ -55,26 +55,7 @@ MAX_ymin = config['MAX_PLOT']['ymin']
 MAX_ymax = config['MAX_PLOT']['ymax']
 
 
-
-
-
-
-
-
-
-
-
-
 output_folder = folder + "/PLOTS"
-
-
-
-
-
-
-
-
-
 
 
 # Regex to extract mdot_fuel and mdot_oxy from filename
