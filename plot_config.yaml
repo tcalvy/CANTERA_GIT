@@ -1,0 +1,26 @@
+path:
+  output_folder: 'H2AIR_DATA_30FUEL'
+
+XOH_PLOT:
+  figsizex: 10
+  figsizey: 10
+
+  xlimactiv: 'yes'
+  xmin: 0.0
+  xmax: 0.06
+
+  ylimactiv: 'no'
+  ymin: 0.0
+  ymax: 0.0175
+
+MAX_PLOT:
+  figsizex: 10
+  figsizey: 10
+
+  xlimactiv: 'no'
+  xmin: 0.0
+  xmax: 0.06
+
+  ylimactiv: 'no'
+  ymin: 0.0
+  ymax: 0.0175
