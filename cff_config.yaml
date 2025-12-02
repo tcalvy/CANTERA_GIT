@@ -1,10 +1,21 @@
 path:
-  output_folder: 'CH4AIR_DATA_TEMP1'
+  output_folder: 'CRECK_MECANISM/TEST_TEST'
 
+mechanism:
+  path: 'CRECK_MECANISM/CRECK/creck_mechanism_ch4.yaml'
+
+before_combustion:
+  fuel: "CH4"
+  phi: 0.8
+  T: 300.0
+  P: 103235
+
+
+  
 
 species:
   composition_fuel: 'CH4:1'                    #Fuel composition
-  composition_oxidizer: 'O2:0.21, N2:0.79'    #Oxydizer composition
+  #composition_oxidizer: 'O2:0.21, N2:0.79'    #Oxydizer composition
 
 
 geometry:
@@ -12,7 +23,7 @@ geometry:
 
 
 #TYPE OF VARIABLE METRIC (debit/temperature)
-type: 'temperature'
+type: 'debit'
 
 #-------------------------------------------------------------------------------
 #For temperature variation : 
@@ -36,13 +47,13 @@ t_temperatures:
 #For debit variation : 
 d_properties:
   fuel_temperature: 300.0                     #Fuel Temperature  (K)
-  oxidizer_temperature: 300.0                 #Oxydizer Temperature (K)
+  #oxidizer_temperature: 300.0                 #Oxydizer Temperature (K)
   pressure: 103235                            #Pressure (Pa)
 
 d_debits:
   min_fuel: 0.01                               #Surface mass flow rate (kg/m^2/s)
   max_fuel: 0.60                               
-  nb_points_fuel: 3                           #Number of presolution points between min and max 
+  nb_points_fuel: 10                           #Number of presolution points between min and max 
   min_oxidizer: 2.0
   max_oxidizer: 3
   nb_points_oxidizer: 1

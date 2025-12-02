@@ -8,7 +8,7 @@ import shutil
 
 
 
-with open("cff_config.yaml", "r") as f:
+with open("CRECK_MECANISM/cff_config.yaml", "r") as f:
     config = yaml.safe_load(f)
 
 print(config)
@@ -17,12 +17,85 @@ print(config)
 
 folder_name = config['path']['output_folder']
 
+mechanism_path = config['mechanism']['path']
+
 comp_f = config['species']['composition_fuel']
-comp_o = config['species']['composition_oxidizer']
+#comp_o = config['species']['composition_oxidizer']
 
 width = config['geometry']['width']  # Distance between inlets 
 
 type = config['type']
+
+#%%BURNED GASES COMPUTATION
+
+burned_gas_fuel = config['before_combustion']['fuel']
+phi_bb = config['before_combustion']['phi']
+T_bb = config['before_combustion']['T']
+P_bb = config['before_combustion']['P']
+
+burned_gas = ct.Solution(mechanism_path)
+
+if burned_gas_fuel =='CH4' :
+
+    A_stoechio = 2.0  # Moles d'O2 pour 1 mole de CH4 
+    a = 3.76  # Rapport N2/O2 dans l'air
+    mol_CH4_bb = 1.0
+    mol_O2_bb = A_stoechio / phi_bb 
+    mol_N2_bb = mol_O2_bb * a
+
+    total_moles_bb = mol_CH4_bb + mol_O2_bb + mol_N2_bb
+
+    X_CH4 = mol_CH4_bb / total_moles_bb
+    X_O2 = mol_O2_bb / total_moles_bb
+    X_N2 = mol_N2_bb / total_moles_bb
+
+    burned_gas.TPX = T_bb, P_bb, {'CH4': mol_CH4_bb, 'O2': mol_O2_bb, 'N2': mol_N2_bb}
+    burned_gas.equilibrate('HP')
+    comp_o={'CH4': mol_CH4_bb, 'O2': mol_O2_bb, 'N2': mol_N2_bb}
+    tin_o=burned_gas.T
+
+
+else :
+    print('ERROR : Fuel for burned gases not recognized')
+    exit
+
+#%%PLOT THE BURNED GAS COMPOSITION
+species_names = burned_gas.species_names
+mole_fractions = burned_gas.X
+
+# Combiner, filtrer les traces (X < 1e-6) et trier
+data = zip(species_names, mole_fractions)
+data = [(name, X) for name, X in data if X > 1e-6] 
+
+# Trier par fraction molaire décroissante
+sorted_data = sorted(data, key=lambda item: item[1], reverse=True)
+
+plot_species = [item[0] for item in sorted_data]
+plot_fractions = [item[1] for item in sorted_data]
+
+# Limiter aux 15 espèces principales pour la clarté
+if len(plot_species) > 15:
+    plot_species = plot_species[:15]
+    plot_fractions = plot_fractions[:15]
+
+# --- 5. Tracé des Résultats ---
+plt.figure(figsize=(12, 6))
+plt.bar(plot_species, plot_fractions, color='skyblue')
+
+plt.xlabel('Specie', fontsize=12)
+plt.ylabel('Molar Fraction', fontsize=12)
+# Affichage de la Température d'équilibre sur le titre
+T_ad_bb = burned_gas.T
+plt.title(f'Composition of burned gases - $\\text{{{burned_gas_fuel}}}/Air$ ($\\phi={phi_bb:.2f}$, $T_{{ad}} = {T_ad_bb:.1f}\text{{ K}}$)', fontsize=14)
+plt.xticks(rotation=45, ha='right')
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.tight_layout()
+
+# Sauvegarde de la figure
+os.makedirs(folder_name, exist_ok=True)
+plot_filename = f"{folder_name}/burned_gas_composition.png"
+plt.savefig(plot_filename)
+print(f"Burned gas composition plot saved in  {plot_filename}")
 
 
 
@@ -30,7 +103,7 @@ type = config['type']
 if type == 'debit' : 
     p = config['d_properties']['pressure']
     tin_f = config['d_properties']['fuel_temperature']
-    tin_o = config['d_properties']['oxidizer_temperature']
+    #tin_o = config['d_properties']['oxidizer_temperature']
 
     loglevel = 1  # amount of diagnostic output (0 to 5)
 
@@ -46,7 +119,7 @@ if type == 'debit' :
 
     # Create the gas object used to evaluate all thermodynamic, kinetic, and
     # transport properties.
-    gas = ct.Solution('gri30.yaml')
+    gas = ct.Solution(mechanism_path)
     gas.TP = gas.T, p
 
     list_mdot_o = np.linspace(min_d_ox, max_d_ox, nb_pts_d_ox)    # kg/m^2/s
@@ -66,8 +139,11 @@ if type == 'debit' :
             f.fuel_inlet.T = tin_f
 
             f.oxidizer_inlet.mdot = mdot_o
-            f.oxidizer_inlet.X = comp_o
-            f.oxidizer_inlet.T = tin_o
+            #f.oxidizer_inlet.X = comp_o
+            #f.oxidizer_inlet.T = tin_o
+            f.oxidizer_inlet.X = burned_gas.X
+            f.oxidizer_inlet.T = burned_gas.T
+            
 
 
             f.set_refine_criteria(ratio=4, slope=0.2, curve=0.3, prune=0.04)
@@ -122,7 +198,7 @@ if type == 'temperature' :
 
     # Create the gas object used to evaluate all thermodynamic, kinetic, and
     # transport properties.
-    gas = ct.Solution('gri30.yaml')
+    gas = ct.Solution(mechanism_path)
  
 
     list_t_o = np.linspace(min_t_ox, max_t_ox, nb_pts_t_ox)    # K
