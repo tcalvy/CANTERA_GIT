@@ -4,11 +4,16 @@ import matplotlib.pyplot as plt
 import numpy as np
 import yaml
 import os
+import shutil
+
+
 
 with open("cff_config.yaml", "r") as f:
     config = yaml.safe_load(f)
 
 print(config)
+
+
 
 folder_name = config['path']['output_folder']
 
@@ -18,6 +23,8 @@ comp_o = config['species']['composition_oxidizer']
 width = config['geometry']['width']  # Distance between inlets 
 
 type = config['type']
+
+
 
 #%%CONFIG DEBIT INCREMENTATION
 if type == 'debit' : 
@@ -77,7 +84,7 @@ if type == 'debit' :
             if not os.path.exists(folder_name):
                 os.makedirs(folder_name)
 
-            csv_path = (f"{folder_name}/diffusion_flame_H2AIR_DEBIT_{mdot_f:.5f}_{mdot_o:.5f}"
+            csv_path = (f"{folder_name}/diffusion_flame_DEBIT_{mdot_f:.5f}_{mdot_o:.5f}"
             .replace(".", "p")
             + ".csv"
     )
@@ -155,7 +162,7 @@ if type == 'temperature' :
             if not os.path.exists(folder_name):
                 os.makedirs(folder_name)
 
-            csv_path = (f"{folder_name}/diffusion_flame_H2AIR_TEMP_{temp_f:04.4f}_{temp_o:04.4f}"
+            csv_path = (f"{folder_name}/diffusion_flame_TEMP_{temp_f:04.4f}_{temp_o:04.4f}"
             .replace(".", "p")
             + ".csv"
     )
@@ -172,3 +179,5 @@ if type == 'temperature' :
             # Step 3: continue processing
             f.show_stats()
             no_rad = f.to_array()
+
+shutil.copy("cff_config.yaml", f"{folder_name}/cff_config.yaml")

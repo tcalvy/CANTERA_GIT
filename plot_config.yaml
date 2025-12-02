@@ -1,5 +1,5 @@
 path:
-  output_folder: 'H2AIR_DATA_30FUEL'
+  output_folder: 'CH4AIR_DATA_DEBIT'
 
 type: 'debit'
 
@@ -9,7 +9,7 @@ XOH_PLOT:
 
   xlimactiv: 'yes'
   xmin: 0.0
-  xmax: 0.06
+  xmax: 0.03
 
   ylimactiv: 'no'
   ymin: 0.0

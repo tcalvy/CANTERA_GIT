@@ -63,7 +63,7 @@ output_folder = folder + "/PLOTS"
 #%%------------------------PLOT FOR DEBIT CONFIGURATION------------------------------------------------------
 if type == 'debit' :
       # Regex to extract mdot_fuel and mdot_oxy from filename
-      pattern = re.compile(r'diffusion_flame_H2AIR_DEBIT_(\d+)p(\d+)_(\d+)p(\d+)\.csv')
+      pattern = re.compile(r'diffusion_flame_DEBIT_(\d+)p(\d+)_(\d+)p(\d+)\.csv')
       ratios = []
       max_locations = []
 
@@ -71,7 +71,7 @@ if type == 'debit' :
       # ----------------------------------------------------------
       # PROCESS FILES
       # ----------------------------------------------------------
-      for filepath in glob.glob(os.path.join(folder, "diffusion_flame_H2AIR_DEBIT_*.csv")):
+      for filepath in glob.glob(os.path.join(folder, "diffusion_flame_DEBIT_*.csv")):
             filename = os.path.basename(filepath)
             match = pattern.match(filename)
             if not match:
@@ -149,7 +149,7 @@ if type == 'debit' :
 #%%------------------------PLOT FOR TEMPERATURE CONFIGURATION--------------------------------------------
 if type == 'temperature' :
       # Regex to extract mdot_fuel and mdot_oxy from filename
-      pattern = re.compile(r'diffusion_flame_H2AIR_TEMP_(\d+)p(\d+)_(\d+)p(\d+)\.csv')
+      pattern = re.compile(r'diffusion_flame_TEMP_(\d+)p(\d+)_(\d+)p(\d+)\.csv')
       ratios = []
       max_locations = []
 
@@ -158,7 +158,7 @@ if type == 'temperature' :
       # ----------------------------------------------------------
       # PROCESS FILES
       # ----------------------------------------------------------
-      for filepath in glob.glob(os.path.join(folder, "diffusion_flame_H2AIR_TEMP_*.csv")):
+      for filepath in glob.glob(os.path.join(folder, "diffusion_flame_TEMP_*.csv")):
             filename = os.path.basename(filepath)
             match = pattern.match(filename)
             if not match:
@@ -223,8 +223,8 @@ if type == 'temperature' :
             plt.xlim([MAX_xmin,MAX_xmax])
       if MAX_ylimactiv == 'yes' :
             plt.xlim([MAX_ymin,MAX_ymax])
-      plt.xlabel("Mass-flow-rate ratio  mdot_fuel / mdot_oxy")
-      plt.ylabel("Grid location of max(X_OH)")
+      plt.xlabel("Temperature ratio  $T_{fuel}$ / $T_{oxi}$")
+      plt.ylabel("Grid location of max($X_{OH}$)")
       plt.savefig(os.path.join(output_folder, "max_XCO_ratio_temperature.png"), dpi=300)
       plt.grid(True)
       plt.tight_layout()

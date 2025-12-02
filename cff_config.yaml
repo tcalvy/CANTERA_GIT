@@ -1,9 +1,9 @@
 path:
-  output_folder: 'H2AIR_DATA_30FUEL'
+  output_folder: 'CH4AIR_DATA_TEMP1'
 
 
 species:
-  composition_fuel: 'H2:1'                    #Fuel composition
+  composition_fuel: 'CH4:1'                    #Fuel composition
   composition_oxidizer: 'O2:0.21, N2:0.79'    #Oxydizer composition
 
 
@@ -12,7 +12,7 @@ geometry:
 
 
 #TYPE OF VARIABLE METRIC (debit/temperature)
-type: 'debit'
+type: 'temperature'
 
 #-------------------------------------------------------------------------------
 #For temperature variation : 
