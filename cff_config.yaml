@@ -1,12 +1,12 @@
 path:
-  output_folder: 'CRECK_MECANISM/TEST_TEST'
+  output_folder: 'CRECK_MECANISM/CASE2'
 
 mechanism:
   path: 'CRECK_MECANISM/CRECK/creck_mechanism_ch4.yaml'
 
 before_combustion:
   fuel: "CH4"
-  phi: 0.8
+  #phi: 0.7
   T: 300.0
   P: 103235
 
@@ -20,6 +20,8 @@ species:
 
 geometry:
   width: 0.1                                  #Nozzle distance (m)
+  fuel_inlet_surface: 2.8274e-5               #(pi*(di/2)**2)
+  oxi_inlet_surface: 1.217367e-4           #(pi*(9e-3)**2 - pi*(6.5e-3)**2)
 
 
 #TYPE OF VARIABLE METRIC (debit/temperature)
@@ -28,8 +30,8 @@ type: 'debit'
 #-------------------------------------------------------------------------------
 #For temperature variation : 
 t_properties:
-  debit_fuel: 0.60                            #Surface mass flow rate (kg/m^2/s)
-  debit_oxidizer: 3.00                        #Surface mass flow rate (kg/m^2/s)
+  debit_fuel: 2.828                            #Surface mass flow rate (kg/m^2/s)
+  debit_oxidizer: 28.00                        #Surface mass flow rate (kg/m^2/s)
   pressure: 103235                            #Pressure (Pa)
 
 t_temperatures:
@@ -47,18 +49,15 @@ t_temperatures:
 #For debit variation : 
 d_properties:
   fuel_temperature: 300.0                     #Fuel Temperature  (K)
-  #oxidizer_temperature: 300.0                 #Oxydizer Temperature (K)
+  oxidizer_temperature: "adiabatic"                 #Oxydizer Temperature (K)
   pressure: 103235                            #Pressure (Pa)
 
 d_debits:
-  min_fuel: 0.01                               #Surface mass flow rate (kg/m^2/s)
-  max_fuel: 0.60                               
+  min_fuel: 0.4e-3                               # mass flow rate (kg/s)
+  max_fuel: 0.9e-3                              # 
   nb_points_fuel: 10                           #Number of presolution points between min and max 
-  min_oxidizer: 2.0
-  max_oxidizer: 3
+  min_oxidizer: 13.5e-3                           # 
+  max_oxidizer: 13.6e-3
   nb_points_oxidizer: 1
-
-
-
 
 

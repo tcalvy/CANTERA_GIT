@@ -28,7 +28,7 @@ plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 ##-------------------------------------------
 
 
-with open("CRECK_MECANISM/TEST_TEST/PLOTS/plot_config.yaml", "r") as f:
+with open("CRECK_MECANISM/CASE2/PLOTS/plot_config.yaml", "r") as f:
     config = yaml.safe_load(f)
 
 # ----------------------------------------------------------
@@ -136,7 +136,7 @@ if type == 'debit' :
             plt.xlim([MAX_xmin,MAX_xmax])
       if MAX_ylimactiv == 'yes' :
             plt.xlim([MAX_ymin,MAX_ymax])
-      plt.xlabel("Mass-flow-rate ratio  $\dot{m}_{fuel} / \dot{m}_{oxy}")
+      plt.xlabel("Mass-flow-rate ratio  $\dot{m}_{fuel} / \dot{m}_{oxy}$")
       plt.ylabel("Grid location of $max(X_{OH})$")
       plt.savefig(os.path.join(output_folder, "max_XCO_ratio_debit.png"), dpi=300)
       plt.grid(True)
